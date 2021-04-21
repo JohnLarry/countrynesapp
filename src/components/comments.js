@@ -1,19 +1,22 @@
-import React, {useState}  from "react";
-import { Image,Container, Row , Col} from "react-bootstrap";
+import React, {useState, useEffect}  from "react";
+import { Image} from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import {firebase} from "../firebaseconfig";
 
+//comment component expoorted to newsdetail component 
 
 const db = firebase.database()
 export default function Comments(props){
     const  { register, handleSubmit, reset, formState: { errors }} = useForm();
     const {articleId} = props;
     const [newsComments, setNewsComments] =useState(null);
+    
+    //retrieve comments from firebase
+    //set state using the retrieved comments
     const getComment =()=>{
         const dbRef = db.ref("comments");
      
- var data =dbRef.orderByChild("newsurl").equalTo(articleId).
-        on("value", (snapshot)=>{
+        var data =dbRef.orderByChild("newsurl").equalTo(articleId).on("value", (snapshot)=>{
             setNewsComments(
                 
                 JSON.stringify(snapshot.val())
@@ -22,7 +25,9 @@ export default function Comments(props){
     })
    
 }
-    
+    //post new comment to firebaseconfig
+    //reload comment to show updated comments
+    //reset data on the form after posting comment to firebase
     const postComment =(data)=>{
    
         const newsCommentRef =  db.ref("comments");
@@ -33,7 +38,8 @@ export default function Comments(props){
         reset(data.comment);
        
     }
-
+   //create an array from the retrieved object comment to using array.map
+   //to loop over the array of comments and display them
     const showComments=()=>{
         var articleComment =[];
         const commentOobject = JSON.parse(newsComments)
@@ -42,6 +48,11 @@ export default function Comments(props){
             return articleComment;
 
     }
+    useEffect(()=>{
+        getComment();
+    },[newsComments]
+    )
+
     return(
         <div>
     
@@ -65,7 +76,7 @@ export default function Comments(props){
       <ul>  {showComments().map((i,j)=>{
             return<li key={j} className="comment-li">
                 <Image src ="../Profile_avatar_placeholder.png" rounded thumbnail className="profile_avater"/>
-                <div><p>Ananymous</p>
+                <div><p>Anonymous</p>
                 <p className="user-comment">{i}</p>
                 </div></li>
         })}

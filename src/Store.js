@@ -1,5 +1,6 @@
 import { action, makeObservable, observable, runInAction } from "mobx";
 
+//mobx news store that stores the artice fetched via api request
 export class NewsStore{
 
 	articles=[];
@@ -10,6 +11,9 @@ export class NewsStore{
 				loadNewsArticles:action,
 			},);
 	}
+	//loadNews article is mobx action that makes the
+	// api request and set the state
+	
 	async loadNewsArticles(){
 
 		
@@ -19,28 +23,7 @@ export class NewsStore{
 				this.articles =responseInJson.articles;
 
 			})	
-			
-
-
-
-
-		/* const newsItem = {
-			source:{
-				name:response.source.name
-				,
-			},
-			author:response.author,
-			title:response.title,
-			description:response.description,
-			url:response.url,
-			urlToImage:response.url,
-			publishedAt:response.publishedAt,
-			content:response.content
-		}
-		this.articles.push(newsItem); */
-
-
-
+	
 		}
 	}
 

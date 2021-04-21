@@ -1,10 +1,15 @@
 import { observer } from "mobx-react";
-import React from "react";
+import React,{useEffect} from "react";
 import { Col, Container, Row, Image} from "react-bootstrap";
 import { Link } from "react-router-dom";
-
+//NewsHeadline loads the artiles headline 
+//using selected data from the store
 export  const NewsHeadline = observer(({store})=>{
-    return <div> 
+useEffect(()=>{
+    store.loadNewsArticles(); 
+},[store]
+)
+    return <div> {store.articles.length===0?"Loading...":""}
 <Container>
 {store.articles.map((article,id)=>{
          
@@ -14,26 +19,27 @@ export  const NewsHeadline = observer(({store})=>{
     <Image src={article.urlToImage} alt="article image" thumbnail  /></Col>
     <Col className="news_basic" md={8}>
         <h5 className="news_title"  >{article.title}</h5>
-        <div className="">
+        <div className="article_profile">
             <span>{article.source.name}</span> <span>{article.publishedAt}</span>
         </div>
-        <div><Link to={`/details/${id}`}>Details...</Link></div>
+        <div classNam="articledetails"><Link to={`/details/${id}`}>Details...</Link></div>
     </Col>
     
 
-    
+     
   </Row>    })}
+  <button onClick={()=>{
+           
+           store.loadNewsArticles();  
+       
+          }
+       }>Refresh</button>
 </Container>
 
 
         
 
-        <button onClick={()=>{
-           
-            store.loadNewsArticles();  
         
-           }
-        }>L0ad News</button>
         
         </div>;
 });
