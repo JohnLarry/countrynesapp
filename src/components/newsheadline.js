@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 export  const NewsHeadline = observer(({store})=>{
 useEffect(()=>{
     store.loadNewsArticles(); 
-},[store]
+}
 )
     return <div> {store.articles.length===0?"Loading...":""}
 <Container>
