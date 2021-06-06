@@ -16,11 +16,11 @@ useEffect(()=>{
     
          return<Row key={id} xs={1}  md={2} className="news_headline">
     <Col className="newsImage" md={4}>
-    <Image src={article.image} alt="article image" thumbnail  /></Col>
+    <Image src={article.urlToImage} alt="article image" thumbnail  /></Col>
     <Col className="news_basic" md={8}>
         <h5 className="news_title"  >{article.title}</h5>
         <div className="article_profile">
-            <span>{article.source}</span> <span>{article.published_at}</span>
+            <span>{article.source.name}</span> <span>{article.publishedAt}</span>
         </div>
         <div classNam="articledetails"><Link to={`/details/${id}`}>Details...</Link></div>
     </Col>
